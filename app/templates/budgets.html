@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Budgets — Smart Expense Analyzer{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="mb-0 fw-bold">Budgets</h2>
+        <p class="text-muted mb-0">
+            {% set months = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] %}
+            {{ months[month] }} {{ year }}
+        </p>
+    </div>
+    <a href="{{ url_for('main.add_budget') }}" class="btn btn-primary">
+        <i class="bi bi-plus-lg"></i> Set Budget
+    </a>
+</div>
+
+<!-- Month/Year filter -->
+<div class="card stat-card mb-4">
+    <div class="card-body">
+        <form method="GET" class="row g-3 align-items-end">
+            <div class="col-auto">
+                <label class="form-label small text-muted">Month</label>
+                <select name="month" class="form-select">
+                    {% for m in range(1, 13) %}
+                    <option value="{{ m }}" {% if m == month %}selected{% endif %}>{{ months[m] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-auto">
+                <label class="form-label small text-muted">Year</label>
+                <input type="number" name="year" class="form-control" value="{{ year }}" min="2020" max="2035">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-outline-primary">Go</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if budget_data %}
+<div class="row g-3">
+    {% for item in budget_data %}
+    <div class="col-md-6">
+        <div class="card stat-card h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between mb-2">
+                    <h5 class="mb-0">{{ item.category_name }}</h5>
+                    <span class="badge {% if item.percent >= 100 %}bg-danger{% elif item.percent >= 80 %}bg-warning text-dark{% else %}bg-success{% endif %}">
+                        {{ "%.0f"|format(item.percent) }}%
+                    </span>
+                </div>
+                <div class="progress budget-progress mb-2">
+                    <div class="progress-bar {% if item.percent >= 100 %}bg-danger{% elif item.percent >= 80 %}bg-warning{% else %}bg-success{% endif %}"
+                         style="width: {{ item.percent }}%"></div>
+                </div>
+                <div class="d-flex justify-content-between small text-muted">
+                    <span>Spent: ₹{{ "%.2f"|format(item.spent) }}</span>
+                    <span>Budget: ₹{{ "%.2f"|format(item.budget.amount) }}</span>
+                    <span class="{% if item.remaining < 0 %}text-danger{% else %}text-success{% endif %}">
+                        {% if item.remaining >= 0 %}Left: ₹{{ "%.2f"|format(item.remaining) }}{% else %}Over: ₹{{ "%.2f"|format(-item.remaining) }}{% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="card stat-card">
+    <div class="card-body text-center text-muted py-5">
+        <i class="bi bi-piggy-bank display-4"></i>
+        <p class="mt-2">No budgets set for this month.</p>
+        <a href="{{ url_for('main.add_budget') }}" class="btn btn-primary">Set a Budget</a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Smart Expense Analyzer — Track Smart, Spend Wise{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <h1 class="display-4 fw-bold mb-3">Smart Expense Analyzer</h1>
+                <p class="lead mb-4 opacity-90">
+                    Take control of your finances. Track expenses, set budgets, get smart insights, and make better spending decisions.
+                </p>
+                <div class="d-flex gap-3 flex-wrap">
+                    <a href="{{ url_for('main.register') }}" class="btn btn-light btn-lg px-4">
+                        <i class="bi bi-person-plus"></i> Get Started Free
+                    </a>
+                    <a href="{{ url_for('main.login') }}" class="btn btn-outline-light btn-lg px-4">
+                        <i class="bi bi-box-arrow-in-right"></i> Login
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="feature-card text-center">
+                            <i class="bi bi-receipt display-5 mb-2"></i>
+                            <h5>Track Expenses</h5>
+                            <p class="small mb-0 opacity-75">Log every expense with categories & payment methods</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="feature-card text-center">
+                            <i class="bi bi-pie-chart display-5 mb-2"></i>
+                            <h5>Smart Insights</h5>
+                            <p class="small mb-0 opacity-75">AI-like analysis of your spending patterns</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="feature-card text-center">
+                            <i class="bi bi-piggy-bank display-5 mb-2"></i>
+                            <h5>Budget Control</h5>
+                            <p class="small mb-0 opacity-75">Set monthly budgets and get alerts</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="feature-card text-center">
+                            <i class="bi bi-bar-chart-line display-5 mb-2"></i>
+                            <h5>Reports & Charts</h5>
+                            <p class="small mb-0 opacity-75">Beautiful visual reports for better decisions</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
